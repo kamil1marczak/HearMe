@@ -1,0 +1,465 @@
+session_config:
+  session_expiration_time: 0
+  carry_over_slots_to_new_session: true
+intents:
+- check_human
+- transfer_money:
+    use_entities: []
+- inform
+- pay_cc:
+    use_entities: []
+- greet
+- goodbye
+- affirm
+- deny
+- thankyou
+- ask_transfer_charge
+- search_transactions:
+    use_entities: []
+- check_balance:
+    use_entities:
+    - credit_card
+    - account_type
+- check_earnings:
+    use_entities: []
+- check_recipients
+- out_of_scope
+- session_start
+- restart
+- trigger_handoff
+- handoff
+- human_handoff
+- help
+- nlu_fallback
+entities:
+- amount-of-money
+- credit_card
+- payment_date
+- vendor_name
+- time
+- PERSON
+- number
+- account_type
+- handoff_to
+- search_type
+slots:
+  AA_CONTINUE_FORM:
+    type: rasa.shared.core.slots.AnySlot
+    initial_value: null
+    auto_fill: true
+    influence_conversation: false
+  PERSON:
+    type: rasa.shared.core.slots.AnySlot
+    initial_value: null
+    auto_fill: true
+    influence_conversation: false
+  account_type:
+    type: rasa.shared.core.slots.AnySlot
+    initial_value: null
+    auto_fill: true
+    influence_conversation: false
+  amount-of-money:
+    type: rasa.shared.core.slots.AnySlot
+    initial_value: null
+    auto_fill: true
+    influence_conversation: false
+  amount_transferred:
+    type: rasa.shared.core.slots.AnySlot
+    initial_value: 0
+    auto_fill: true
+    influence_conversation: false
+  credit_card:
+    type: rasa.shared.core.slots.AnySlot
+    initial_value: null
+    auto_fill: true
+    influence_conversation: false
+  currency:
+    type: rasa.shared.core.slots.AnySlot
+    initial_value: $
+    auto_fill: true
+    influence_conversation: false
+  end_time:
+    type: rasa.shared.core.slots.AnySlot
+    initial_value: null
+    auto_fill: true
+    influence_conversation: false
+  end_time_formatted:
+    type: rasa.shared.core.slots.AnySlot
+    initial_value: null
+    auto_fill: true
+    influence_conversation: false
+  grain:
+    type: rasa.shared.core.slots.AnySlot
+    initial_value: null
+    auto_fill: true
+    influence_conversation: false
+  handoff_to:
+    type: rasa.shared.core.slots.AnySlot
+    initial_value: null
+    auto_fill: true
+    influence_conversation: false
+  next_form_name:
+    type: rasa.shared.core.slots.TextSlot
+    initial_value: null
+    auto_fill: true
+    influence_conversation: true
+  number:
+    type: rasa.shared.core.slots.AnySlot
+    initial_value: null
+    auto_fill: true
+    influence_conversation: false
+  payment_amount_type:
+    type: rasa.shared.core.slots.AnySlot
+    initial_value: ''
+    auto_fill: true
+    influence_conversation: false
+  previous_form_name:
+    type: rasa.shared.core.slots.TextSlot
+    initial_value: null
+    auto_fill: true
+    influence_conversation: true
+  repeated_validation_failures:
+    type: rasa.shared.core.slots.AnySlot
+    initial_value: null
+    auto_fill: true
+    influence_conversation: false
+  requested_slot:
+    type: rasa.shared.core.slots.AnySlot
+    initial_value: null
+    auto_fill: true
+    influence_conversation: false
+  search_type:
+    type: rasa.shared.core.slots.AnySlot
+    initial_value: null
+    auto_fill: true
+    influence_conversation: false
+  start_time:
+    type: rasa.shared.core.slots.AnySlot
+    initial_value: null
+    auto_fill: true
+    influence_conversation: false
+  start_time_formatted:
+    type: rasa.shared.core.slots.AnySlot
+    initial_value: null
+    auto_fill: true
+    influence_conversation: false
+  time:
+    type: rasa.shared.core.slots.AnySlot
+    initial_value: null
+    auto_fill: true
+    influence_conversation: false
+  time_formatted:
+    type: rasa.shared.core.slots.AnySlot
+    initial_value: null
+    auto_fill: true
+    influence_conversation: false
+  vendor_name:
+    type: rasa.shared.core.slots.AnySlot
+    initial_value: null
+    auto_fill: true
+    influence_conversation: false
+  zz_confirm_form:
+    type: rasa.shared.core.slots.AnySlot
+    initial_value: null
+    auto_fill: true
+    influence_conversation: false
+responses:
+  utter_out_of_scope:
+  - text: Przepraszam, nie wiem, jak na to odpowiedzieć. Wpisz „pomoc”, aby uzyskać pomoc.
+  utter_ask_transfer_money_form_amount-of-money:
+  - text: Ile pieniędzy chcesz przelać?
+  utter_ask_transfer_money_form_PERSON:
+  - text: Komu chcesz przelać pieniądze?
+  utter_goodbye:
+  - text: PA
+  utter_noworries:
+  - text: Nie ma za co :)
+  utter_transfer_complete:
+  - text: Przelew w wysokości {currency}{amount-of-money} do {PERSON} zakończony ssukcesem.
+  utter_transfer_charge:
+  - text: Masz prawo do sześciu przelewów w cyklu wyciągu, zanim zostaniesz naładowany. Za kolejne przelewy zostaniesz obciążony opłatą {currency}10 za transakcję.
+  utter_ask_cc_payment_form_amount-of-money:
+  - text: Ile chcesz zapłacić?
+  utter_ask_cc_payment_form_credit_card:
+  - text: Na jakie konto karty kredytowej chcesz dokonać płatności?
+  utter_ask_cc_payment_form_time:
+  - text: Na jaki termin chcesz zaplanować płatność?
+  utter_ask_transaction_search_form_vendor_name:
+  - text: Dla którego dostawcy chcesz zobaczyć transakcje? na przykład Starbucks, Target, Amazon
+  utter_ask_transaction_search_form_time:
+  - text: W jakim przedziale czasowym chciałbyś szukać transakcji?
+  utter_ask_transaction_search_form_search_type:
+  - buttons:
+    - payload: /inform{"search_type":"deposit"}'
+      title: Przychodzące (zarobki)
+    - payload: /inform{"search_type":"spend"}'
+      title: Wychodzące (wydatki)
+    text: Chcesz wyszukać transakcje przychodzące lub wychodzące?
+  utter_no_payment_amount:
+  - text: Przepraszamy, nie rozumiem tej kwoty płatności.
+  utter_no_paymentdate:
+  - text: Przepraszamy, to nie jest prawidłowa data płatności.
+  utter_no_creditcard:
+  - text: Przepraszamy, to nie jest prawidłowe konto karty kredytowej, na którą można dokonywać płatności.
+  utter_no_vendor_name:
+  - text: Przepraszamy, to nie jest uznany dostawca.
+  utter_no_transactdate:
+  - text: Przepraszamy, to nie są rozpoznane ramy czasowe.
+  utter_cc_pay_scheduled:
+  - text: Płatność w wysokości {currency}{amount-of-money}{payment_amount_type} na konto {credit_card} zaplanowane do opłacenia w {time_formatted}.
+  utter_searching_spend_transactions:
+  - text: Wyszukiwanie transakcji{vendor_name} pomiędzy {start_time_formatted} i {end_time_formatted}...
+  utter_found_spend_transactions:
+  - text: Znalazłem {numtransacts} transakcję{vendor_name} sumującą się na {currency}{total}.
+  utter_searching_deposit_transactions:
+  - text: Wyszukiwanie wpłat dokonanych na Twoje konto między {start_time_formatted} oraz {end_time_formatted}...
+  utter_found_deposit_transactions:
+  - text: Znalazłem {numtransacts} wpłaty na Twoje konto sumujące się na kwotę {currency}{total}
+  utter_ask_rephrase:
+  - text: Nie do końca to rozumiałem. Czy możesz przeformułować?
+  utter_ok:
+  - text: 👍
+  utter_ask_continue:
+  - text: Czy chciałbyś kontynuować?
+  utter_default:
+  - text: Nie do końca to rozumiałem. Czy mógłbyś przeformułować?
+  utter_ask_cc_payment_form_AA_CONTINUE_FORM:
+  - buttons:
+    - payload: /affirm
+      title: Tak
+    - payload: /deny
+      title: Nie, anuluj transakcję
+    text: Czy chcesz kontynuować planowanie płatności kartą kredytową?
+  utter_ask_transfer_money_form_AA_CONTINUE_FORM:
+  - buttons:
+    - payload: /affirm
+      title: Tak
+    - payload: /deny
+      title: Nie, anuluje przelew
+    text: Czy chcesz kontynuować planowanie przelewu?
+  utter_ask_transaction_search_form_AA_CONTINUE_FORM:
+  - buttons:
+    - payload: /affirm
+      title: Tak
+    - payload: /deny
+      title: Nie, anuluj wyszukiwanie
+    text: Czy chcesz kontynuować wyszukiwanie transakcji?
+  utter_ask_cc_payment_form_zz_confirm_form:
+  - buttons:
+    - payload: /affirm
+      title: Tak
+    - payload: /deny
+      title: Nie, anuluj transakcję
+    text: Czy chcesz zaplanować płatność w wysokości {currency}{amount-of-money}{payment_amount_type} na konto twojej karty w {credit_card} na {time_formatted}?
+  utter_ask_transfer_money_form_zz_confirm_form:
+  - buttons:
+    - payload: /affirm
+      title: Tak
+    - payload: /deny
+      title: Nie, anuluj transakcję
+    text: Czy chcesz dokonać przelewu {currency}{amount-of-money} do {PERSON}?
+  utter_cc_pay_cancelled:
+  - text: Płatność kartą kredytową została anulowana.
+  utter_transfer_cancelled:
+  - text: Przelew został anulowany.
+  utter_transaction_search_cancelled:
+  - text: Wyszukiwanie transakcji zostało anulowane.
+  utter_account_balance:
+  - text: Saldo Twojego konta bankowego wynosi {currency}{init_account_balance}.
+  utter_changed_account_balance:
+  - text: Saldo Twojego konta bankowego wynosiło {currency}{init_account_balance} oraz obecnie wynosi {currency}{account_balance} po przelewach i płatnościach.
+  utter_unknown_recipient:
+  - text: Przepraszam, {PERSON} nie ma na Twojej liście znanych odbiorców.
+  utter_insufficient_funds:
+  - text: Przepraszamy, nie masz wystarczająco dużo pieniędzy, aby to zrobić!
+  utter_insufficient_funds_specific:
+  - text: Kwota {payment_amount_type} na Twojej karcie kredytowej {credit_card} jest {amount-of-money}, więc nie masz wystarczających środków na spłatę.
+  utter_credit_card_balance:
+  - text: Aktualne saldo dla konta Twojej {credit_card} wynosi {currency}{credit_card_balance}.
+  utter_nothing_due:
+  - text: Nie jesteś winien żadnych pieniędzy na rachunku swojej karty kredytowej {credit_card} .
+  utter_recipients:
+  - text: To są Twoi znani odbiorcy, do których możesz wysyłać pieniądze:{formatted_recipients}
+  utter_greet:
+  - text: Cześć! Jestem Twoim Asystentem Finansowym!
+  utter_ask_handoff:
+  - text: Wygląda na to, że chcesz zostać przeniesiony do ludzkiego agenta.
+  utter_handoff:
+  - text: Dobrze, spróbuję Ci przelać środki.
+  utter_wouldve_handed_off:
+  - text: Gdybyś rozmawiał ze mną przez czat, przekazałbym cię do {handoffhost}.
+  utter_no_handoff:
+  - text: Ponieważ nie skonfigurowałeś hosta do przekazania, nie mogę cię nigdzie wysłać!
+  utter_ask_whatelse:
+  - text: W czym jeszcze mogę Ci pomóc?
+  utter_bot:
+  - text: Jestem wirtualnym asystentem stworzonym z Rasą.
+  utter_help:
+  - text: |-
+      Mogę Ci pomóc z Twoimi rachunkami finansowymi.
+      Możesz zadać mi takie pytania jak:
+      - Jakie jest saldo mojego konta?
+      - Spłać moją kartę kredytową
+      - Ile wydałem w Target w zeszłym miesiącu?
+      - Muszę przelać pieniądze
+
+#  utter_help:
+#  - text: "I can help you with your financial accounts. \nYou can ask me things like:\
+#      \ \n- What's my account balance? \n- Pay off my credit card \n- What did I spend\
+#      \ at Target last month? \n- I need to transfer money"
+actions:
+- action_session_start
+- action_restart
+- action_show_balance
+- action_show_recipients
+- action_show_transfer_charge
+- action_handoff
+- action_handoff_options
+- action_pay_cc
+- action_transfer_money
+- action_transaction_search
+- action_ask_transaction_search_form_zz_confirm_form
+- action_switch_forms_ask
+- action_switch_forms_deny
+- action_switch_forms_affirm
+- action_switch_back_ask
+- validate_cc_payment_form
+- validate_transfer_money_form
+- validate_transaction_search_form
+forms:
+  cc_payment_form:
+    AA_CONTINUE_FORM:
+    - intent: affirm
+      type: from_intent
+      value: yes
+    - intent: deny
+      type: from_intent
+      value: no
+    - intent:
+      - inform
+      - cc_payment_form
+      type: from_text
+    credit_card:
+    - entity: credit_card
+      type: from_entity
+    - intent:
+      - inform
+      - cc_payment_form
+      type: from_text
+    amount-of-money:
+    - entity: amount-of-money
+      not_intent:
+      - check_balance
+      - check_earnings
+      type: from_entity
+    - entity: number
+      not_intent:
+      - check_balance
+      - check_earnings
+      type: from_entity
+    - intent:
+      - inform
+      - cc_payment_form
+      type: from_text
+    time:
+    - entity: time
+      type: from_entity
+    - intent:
+      - inform
+      - cc_payment_form
+      type: from_text
+    zz_confirm_form:
+    - intent: affirm
+      type: from_intent
+      value: yes
+    - intent: deny
+      type: from_intent
+      value: no
+    - intent:
+      - inform
+      - cc_payment_form
+      type: from_text
+  transfer_money_form:
+    AA_CONTINUE_FORM:
+    - intent: affirm
+      type: from_intent
+      value: yes
+    - intent: deny
+      type: from_intent
+      value: no
+    - intent:
+      - inform
+      - transfer_money_form
+      type: from_text
+    PERSON:
+    - entity: PERSON
+      type: from_entity
+    - intent:
+      - inform
+      - transfer_money_form
+      type: from_text
+    amount-of-money:
+    - entity: amount-of-money
+      not_intent:
+      - check_balance
+      - check_earnings
+      type: from_entity
+    - entity: number
+      not_intent:
+      - check_balance
+      - check_earnings
+      type: from_entity
+    - intent:
+      - inform
+      - transfer_money_form
+      type: from_text
+    zz_confirm_form:
+    - intent: affirm
+      type: from_intent
+      value: yes
+    - intent: deny
+      type: from_intent
+      value: no
+    - intent:
+      - inform
+      - transfer_money_form
+      type: from_text
+  transaction_search_form:
+    AA_CONTINUE_FORM:
+    - intent: affirm
+      type: from_intent
+      value: yes
+    - intent: deny
+      type: from_intent
+      value: no
+    - intent:
+      - inform
+      - transaction_search_form
+      type: from_text
+    search_type:
+    - intent: search_transactions
+      type: from_trigger_intent
+      value: spend
+    - intent: check_earnings
+      type: from_trigger_intent
+      value: deposit
+    - type: from_entity
+      entity: search_type
+    time:
+    - entity: time
+      type: from_entity
+    - intent:
+      - inform
+      - transaction_search_form
+      type: from_text
+    zz_confirm_form:
+    - intent: affirm
+      type: from_intent
+      value: yes
+    - intent: deny
+      type: from_intent
+      value: no
+    - intent:
+      - inform
+      - transaction_search_form
+      type: from_text
