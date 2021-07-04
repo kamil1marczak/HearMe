@@ -38,7 +38,9 @@ RUN apt-get update && apt-get dist-upgrade -y --no-install-recommends
 RUN pip install -r requirements-actions.txt
 
 # Copy actions code to working directory
-COPY ./actions /app/actions
+#COPY ./actions /app/actions
+COPY actions /app/actions
+
 
 # Install modules from setup.py
 COPY setup.py /app
@@ -52,4 +54,5 @@ RUN python -m spacy download pl_core_news_lg
 USER 1001
 
 # Start the action server
-CMD ["start", "--actions", "actions.actions"]
+#CMD ["start", "--actions", "actions.actions"]
+CMD ["start", "--actions", "actions"]
