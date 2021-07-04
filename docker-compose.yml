@@ -1,0 +1,8 @@
+version: '3.4'
+services:
+  hear-me-rasa-action:
+    build: .
+    # tag it with the registry of the microk8s cluster
+    image: localhost:32000/hear-me-rasa-action:0.0.1
+    expose:
+      - "5055"
