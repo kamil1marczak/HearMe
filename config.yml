@@ -1,4 +1,4 @@
-version: '2.0'
+version: '3.0'
 language: pl
 pipeline:
 - name: WhitespaceTokenizer
@@ -21,7 +21,7 @@ pipeline:
   timezone: Europe/Warsaw
   timeout: 3
 - name: SpacyNLP
-  model: pl_core_news_lg
+  model: pl_core_news_sm
   case_sensitive: false
 - name: SpacyEntityExtractor
   dimensions:
