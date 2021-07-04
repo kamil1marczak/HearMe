@@ -563,6 +563,7 @@ nlu:
     - Umiesz robić kanapki?
     - Czy możesz wysłać mi uber
     - off fsdfafsfs
+    - afe
 - synonym: credit
   examples: |
     - credit card
