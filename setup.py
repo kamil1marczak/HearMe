@@ -12,7 +12,7 @@ install_requires = [
     "geopy~=1.18.1",
     "pandas>=0.25.0",
     "algoliasearch>=2.0,<3.0",
-    "spacy~=2.2.4",
+    "spacy~=3.0.6",
 ]
 
 here = os.path.abspath(os.path.dirname(__file__))
