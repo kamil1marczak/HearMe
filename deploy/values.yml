@@ -8,9 +8,14 @@ images:
     - name: "gcr-pull-secret"
     - name: "ecr-pull-secret"
 # action server image
+
 app:
-    name: "set_as_environment_variable-APP_NAME"
-    tag: "set_as_environment_variable-APP_TAG"
+    # from microk8s build-in registry
+    name: "localhost:32000/hear-me-rasa-action"
+    tag: "0.0.1"
+#app:
+#    name: "set_as_environment_variable-APP_NAME"
+#    tag: "set_as_environment_variable-APP_TAG"
 # rasax specific settings
 rasax:
     tag: "set_as_environment_variable-RASAX_TAG"
@@ -30,6 +35,11 @@ rasax:
     jwtSecret: "set_as_environment_variable-RASAX_JWTSECRET"
 # rasa: Settings common for all Rasa containers
 rasa:
+    versions:
+        # rasaProduction is the container which serves the production environment
+        rasaProduction:
+            # replicaCount of the Rasa Production container
+            replicaCount: 2
     tag: "set_as_environment_variable-RASA_TAG"
     # token Rasa accepts as authentication token from other Rasa services
     token: "set_as_environment_variable-RASA_TOKEN"
