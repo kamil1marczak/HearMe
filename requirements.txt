@@ -1,6 +1,7 @@
 -r actions/requirements-actions.txt
 
-rasa[spacy]==2.7.1
+rasa==2.7.1
+spacy==3.0.0
 
 # Sync with `Dockerfile`
 rasa-sdk==2.7.0
