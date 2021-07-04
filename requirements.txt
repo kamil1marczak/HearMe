@@ -2,6 +2,7 @@
 
 rasa==2.7.1
 spacy==3.0.6
+https://github.com/explosion/spacy-models/releases/download/pl_core_news_lg-3.0.0/pl_core_news_lg-3.0.0.tar.gz
 
 # Sync with `Dockerfile`
 rasa-sdk==2.7.0
