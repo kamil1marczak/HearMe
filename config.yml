@@ -13,7 +13,7 @@ pipeline:
 - name: FallbackClassifier
   threshold: 0.7
 - name: DucklingEntityExtractor
-  url: http://duckling:8000
+  url: http://localhost:8000
   dimensions:
   - time
   - number
