@@ -15,19 +15,16 @@ pipeline:
 - name: DucklingEntityExtractor
 #  url: http://localhost:8000
   url: http://duckling.rasa.com:8000
-    dimensions:
-      - amount-of-money
-      - time
-      - number
-    locale: "pl_PL"
-    timezone: "Europe/Warsaw"
-    timeout: 3
+  dimensions:
+    - time
+    - number
+  locale: "pl_PL"
+  timezone: "Europe/Warsaw"
 - name: SpacyNLP
-  model: pl_core_news_lg
+  model: "pl_core_news_lg"
   case_sensitive: false
 - name: SpacyEntityExtractor
-  dimensions:
-  - PERSON
+  dimensions: ["PERSON"]
 - name: EntitySynonymMapper
 policies:
 - name: AugmentedMemoizationPolicy
