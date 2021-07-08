@@ -76,7 +76,7 @@ To install development dependencies:
 pip install -r requirements-dev.txt
 pre-commit install
 #python -m spacy download en_core_web_md en
-python -m spacy download pl_core_news_lg pl
+python -m spacy download pl_core_news_lg
 #python -m spacy link en_core_web_md en
 python -m spacy link pl_core_news_lg pl
 ```
