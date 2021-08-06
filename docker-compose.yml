@@ -1,8 +1,28 @@
 version: '3.4'
 services:
+  hear-me-rasa-x:
+    build:
+      context: .
+      dockerfile: ./compose/rasa-x/Dockerfile
+    image: hear-me-rasa-x
+    ports:
+      - 5005:5005
+    volumes:
+      - ./:/app
+#    command: [ "bash", "run.sh" ]
+#    command: [ "bash", "x"]
+#    command:
+#      - x
   hear-me-rasa-action:
-    build: .
+    build:
+      context: .
+      dockerfile: ./compose/action/Dockerfile
     # tag it with the registry of the microk8s cluster
-    image: localhost:32000/hear-me-rasa-action:0.0.1
+#    image: localhost:32000/hear-me-rasa-action:0.0.1
+    image: hear-me-rasa-action
+#    command: [ "bash", "run.sh" ]
+#    command:
+#      - run actions
     expose:
       - "5055"
+
