@@ -3,7 +3,7 @@ services:
   hear-me-rasa-x:
     build:
       context: .
-      dockerfile: ./compose/rasa-x/Dockerfile
+      dockerfile: compose/rasa-x/Dockerfile
     image: hear-me-rasa-x
     ports:
       - 5005:5005

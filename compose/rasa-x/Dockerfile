@@ -1,19 +1,25 @@
-FROM rasa/rasa:main-full
+# use a python container as a starting point
+FROM python:3.8-slim
 
-COPY actions /app/actions
+# install dependencies of interest
+RUN python -m pip install rasa[spacy] && \
+    python -m spacy download pl_core_news_sm
 
-USER root
-#RUN pip3 install rasa-x --extra-index-url https://pypi.rasa.com/simple
-#RUN pip install --no-cache-dir -r /app/actions/requirements-actions.txt
-RUN pip install rasa-x --extra-index-url https://pypi.rasa.com/simple
-RUN python -m spacy download pl_core_news_sm
-#RUN pip install -U pip setuptools wheel \
-#    && pip install -U spacy \
-##    && python -m spacy download pl_core_news_lg
-#    && python -m spacy download pl_core_news_sm
+RUN export RASA_X_PASSWORD="Kamil100!"
+# set workdir and copy data files from disk
+# note the latter command uses .dockerignore
+WORKDIR /app
+ENV HOME=/app
+COPY . .
 
+# train a new rasa model
+RUN rasa train nlu
 
+# set the user to run, don't run as root
 USER 1001
-#CMD ["run"]
-CMD ["x"]
 
+# set entrypoint for interactive shells
+ENTRYPOINT ["rasa"]
+
+# command to run when container is called to run
+CMD ["run", "--enable-api", "--port", "5005"]

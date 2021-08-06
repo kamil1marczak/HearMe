@@ -13,7 +13,8 @@ USER root
 # RUN pip install -r requirements-actions.txt
 
 # Copy actions folder to working directory
-COPY ./actions /app/actions
+COPY ./action /app/actions
+#COPY ../action /app/actions
 
 RUN pip install --no-cache-dir -r /app/actions/requirements-actions.txt
 

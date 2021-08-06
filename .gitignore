@@ -335,3 +335,6 @@ pl_bank_django/media/
 .envs/*
 !.envs/.local/
 /.idea/
+/docker_instal/
+
+/rasa-x/
