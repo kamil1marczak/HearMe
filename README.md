@@ -81,6 +81,13 @@ python -m spacy download pl_core_news_lg
 python -m spacy link pl_core_news_lg pl
 ```
 
+
+```bash
+docker image build ./actions/ -t kamilmarczak/hear_me_action:latest
+
+```
+
+
 > With pre-commit installed, the `black` and `doctoc` hooks will run on every `git commit`.
 > If any changes are made by the hooks, you will need to re-add changed files and re-commit your changes.
 
@@ -651,6 +658,7 @@ make docker-stop
 make aws-ecr-docker-login
 make docker-push
 ```
+
 
 #### Install/Upgrade Rasa Enterprise
 

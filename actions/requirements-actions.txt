@@ -1,14 +1,5 @@
-algoliasearch
-beautifulsoup4
-geopy
-gspread
-mailchimp3
-numpy
-oauth2client
-pandas
 python-dateutil
-python-dotenv
+numpy
 pytz
-requests
 ruamel.yaml
 sqlalchemy

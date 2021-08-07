@@ -13,8 +13,8 @@ pipeline:
 - name: FallbackClassifier
   threshold: 0.7
 - name: DucklingEntityExtractor
-#  url: http://localhost:8000
-  url: http://duckling.rasa.com:8000
+  url: http://localhost:8000
+#  url: http://duckling.rasa.com:8000
   dimensions:
     - time
     - number

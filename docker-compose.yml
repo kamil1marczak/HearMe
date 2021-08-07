@@ -3,12 +3,20 @@ services:
   hear-me-rasa-x:
     build:
       context: .
-      dockerfile: compose/rasa-x/Dockerfile
+      dockerfile: ./compose/rasa-x/Dockerfile
     image: hear-me-rasa-x
     ports:
       - 5005:5005
     volumes:
       - ./:/app
+    environment:
+      RASA_X_PASSWORD: Kamil100!
+    command: |
+      x --no-prompt --enable-api --port 5005 --cors "*"
+#    command: ["x", "--enable-api", "--port", "5005", "–-cors", "*", "–-no-prompt"]
+#      - train
+#      - x --no-prompt
+#      - x
 #    command: [ "bash", "run.sh" ]
 #    command: [ "bash", "x"]
 #    command:
@@ -25,4 +33,6 @@ services:
 #      - run actions
     expose:
       - "5055"
+    ports:
+      - 5055:5055
 
