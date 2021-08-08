@@ -53,8 +53,13 @@ COPY . ./
 USER 1001
 
 # set entrypoint for interactive shells
-ENTRYPOINT ["rasa"]
+
 
 # command to run when container is called to run
-CMD ["shell", "--debug", "--enable-api", "--port", "5005"]
-#CMD ["run", "--enable-api", "--port", "5005"]
+# to run without rasa x
+CMD rasa shell --debug --enable-api
+#CMD ["shell", "--debug", "--enable-api", "--endpoints", "endpoints.yml", ""]
+#CMD ["shell", "--debug", "--enable-api", "--port", "5005"]
+
+ENTRYPOINT ["rasa"]
+CMD ["run", "--enable-api", "--port", "5005"]

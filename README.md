@@ -83,7 +83,16 @@ python -m spacy link pl_core_news_lg pl
 
 
 ```bash
-docker image build ./actions/ -t kamilmarczak/hear_me_action:latest
+docker image build ./actions/ -t kamilmarczak/rasa-action:latest
+
+sudo chgrp -R root HearMe/* && sudo chmod -R 777 HearMe/*
+
+docker build -t kamilmarczak/rasa-production:latest .
+
+docker network create hear-me-network
+docker run -it --name action-serv --net hear-me-network -p 5055:5055 kamilmarczak/rasa-action
+docker run -it --net hear-me-network -p 5005:5005 kamilmarczak/rasa-production
+
 
 ```
 

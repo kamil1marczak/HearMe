@@ -1,38 +1,31 @@
-version: '3.4'
+version: '3'
 services:
-  hear-me-rasa-x:
-    build:
-      context: .
-      dockerfile: ./compose/rasa-x/Dockerfile
-    image: hear-me-rasa-x
-    ports:
-      - 5005:5005
-    volumes:
-      - ./:/app
-    environment:
-      RASA_X_PASSWORD: Kamil100!
-    command: |
-      x --no-prompt --enable-api --port 5005 --cors "*"
-#    command: ["x", "--enable-api", "--port", "5005", "–-cors", "*", "–-no-prompt"]
-#      - train
-#      - x --no-prompt
-#      - x
-#    command: [ "bash", "run.sh" ]
-#    command: [ "bash", "x"]
-#    command:
-#      - x
-  hear-me-rasa-action:
-    build:
-      context: .
-      dockerfile: ./compose/action/Dockerfile
-    # tag it with the registry of the microk8s cluster
-#    image: localhost:32000/hear-me-rasa-action:0.0.1
-    image: hear-me-rasa-action
-#    command: [ "bash", "run.sh" ]
-#    command:
-#      - run actions
+  app:
+    image: "kamilmarczak/rasa-action:latest"      #  this is your container running the sdk server and your actions
+    container_name: "app"
     expose:
       - "5055"
-    ports:
-      - 5055:5055
+    depends_on:
+      - rasa
 
+  rasa:
+    image: "kamilmarczak/rasa-production:latest"
+    container_name: "rasa"
+    expose:
+      - "5005"
+    depends_on:
+      - mongo
+
+  mongo:
+    image: "mongo:3.7-jessie"
+    container_name: "mongo"
+    expose:
+      - "27017"
+    volumes:
+      - ./mongo:/data/db
+
+#  duckling:
+#    image: "rasa/duckling:latest"
+#    container_name: "duckling"
+#    expose:
+#      - "8000"
