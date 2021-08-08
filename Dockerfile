@@ -1,86 +1,55 @@
-ARG PYTHON_VERSION=3.9-slim-buster
+ARG PYTHON_VERSION=3.8-slim-buster
 
 # define an alias for the specfic python version used in this file.
 FROM python:${PYTHON_VERSION} as python
 
+ENV PIP_NO_CACHE_DIR=off \
+    PIP_DISABLE_PIP_VERSION_CHECK=on \
+    PIP_DEFAULT_TIMEOUT=100 \
+    POETRY_PATH=/opt/poetry \
+    VENV_PATH=/opt/venv \
+    POETRY_VERSION=1.1.7
+ENV PATH="$POETRY_PATH/bin:$VENV_PATH/bin:$PATH"
+
 # Python build stage
 FROM python as python-build-stage
 
-ARG BUILD_ENVIRONMENT=local
-
-# Install apt packages
-RUN apt-get update && apt-get install --no-install-recommends -y \
-  # dependencies for building Python packages
-  build-essential \
-  # psycopg2 dependencies
-  libpq-dev
-
-# Requirements are installed here to ensure they will be cached.
-COPY requirements.txt .
-
-# Create Python Dependency and Sub-Dependency Wheels.
-RUN pip wheel --wheel-dir /usr/src/app/wheels  \
-  -r requirements.txt
 
 
-# Python 'run' stage
+RUN apt-get update \
+    && apt-get install --no-install-recommends -y \
+        # deps for installing poetry
+        curl \
+        # deps for building python deps
+        build-essential \
+    \
+    # install poetry - uses $POETRY_VERSION internally
+    && curl -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py | python \
+    && mv /root/.poetry $POETRY_PATH \
+    && poetry --version \
+    \
+    # configure poetry & make a virtualenv ahead of time since we only need one
+    && python -m venv $VENV_PATH \
+    && poetry config virtualenvs.create false --local \
+#    && poetry config settings.virtualenvs.create false \
+    \
+    # cleanup
+    && rm -rf /var/lib/apt/lists/*
+
+COPY poetry.lock pyproject.toml ./
+RUN poetry install --no-interaction --no-ansi -vvv
+
 FROM python as python-run-stage
 
-ARG BUILD_ENVIRONMENT=local
-ARG APP_HOME=/app
+#COPY --from=python-build-stage /app/venv /app/venv/
+COPY --from=python-build-stage $VENV_PATH $VENV_PATH
 
-ENV PYTHONUNBUFFERED 1
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV BUILD_ENV ${BUILD_ENVIRONMENT}
+#ENV PATH /app/venv/bin:$PATH
+RUN python -m spacy download pl_core_news_lg
 
-WORKDIR ${APP_HOME}
-
-# Install required system dependencies
-RUN apt-get update && apt-get install --no-install-recommends -y \
-  # psycopg2 dependencies
-  libpq-dev \
-  # Translations dependencies
-  gettext \
-  # cleaning up unused files
-  && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
-  && rm -rf /var/lib/apt/lists/*
-
-# All absolute dir copies ignore workdir instruction. All relative dir copies are wrt to the workdir instruction
-# copy python dependency wheels from python-build-stage
-COPY --from=python-build-stage /usr/src/app/wheels  /wheels/
-
-# use wheels to install python dependencies
-RUN pip install --no-cache-dir --no-index --find-links=/wheels/ /wheels/* \
-	&& rm -rf /wheels/
-
-#COPY . .
-#RUN sed -i 's/\r$//g' ./
-#RUN chmod +x ./
-
-
-# copy application code to WORKDIR
-COPY . ${APP_HOME}
-
-ENTRYPOINT ["/entrypoint"]
-
-# use a python container as a starting point
-FROM python:3.8-slim
-
-# install dependencies of interest
-RUN python -m pip install rasa[spacy] && \
-    python -m spacy download pl_core_news_lg
-#    python -m spacy download pl_core_news_sm
-
-# set workdir and copy data files from disk
-# note the latter command uses .dockerignore
 WORKDIR /app
-ENV HOME=/app
-COPY . .
+COPY . ./
 
-## train a new rasa model
-#RUN rasa train nlu
-
-# set the user to run, don't run as root
 USER 1001
 
 # set entrypoint for interactive shells

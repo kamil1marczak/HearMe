@@ -1,0 +1,27 @@
+[tool.poetry]
+name = "hearme"
+version = "0.1.0"
+description = ""
+authors = ["Kamil Marczak <kamil1marczak@gmail.com>"]
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = "~3.8"
+rasa = "^2.8.2"
+spacy = "3.*"
+
+[tool.poetry.dev-dependencies]
+pytablewriter = "*"
+black = "*"
+flake8 = "*"
+pytype = "*"
+pre-commit = "*"
+pytest-cov = "*"
+coveralls = "*"
+pytest = "*"
+pytest-sanic = "*"
+pytest-asyncio = "*"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
