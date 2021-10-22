@@ -7,7 +7,7 @@ license = "MIT"
 
 [tool.poetry.dependencies]
 python = "~3.8"
-rasa = "^2.8.2"
+rasa = "^2.8.10"
 spacy = "3.*"
 
 [tool.poetry.dev-dependencies]
