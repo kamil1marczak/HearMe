@@ -10,3 +10,4 @@ spacy==3.0.6
 
 # Sync with `Dockerfile`
 # rasa-sdk==2.7.0
+numpy>=1.22.0rc1 # not directly required, pinned by Snyk to avoid a vulnerability
