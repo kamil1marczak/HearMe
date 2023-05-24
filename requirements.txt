@@ -1,4 +1,4 @@
-requests==2.25
+requests==2.31.0
 decorator<5.0.0
 pyjwt==2.0.0
 rasa==2.7.1 # NB! when updating, make sure to also update:
